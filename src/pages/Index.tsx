@@ -1,14 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState, useEffect } from 'react';
+import PinLock from '../components/PinLock';
+import MessengerApp from '../components/MessengerApp';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [storedPin, setStoredPin] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if PIN exists in localStorage
+    const savedPin = localStorage.getItem('ayocrypt_pin');
+    setStoredPin(savedPin);
+  }, []);
+
+  const handlePinSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleSetPin = (pin: string) => {
+    localStorage.setItem('ayocrypt_pin', pin);
+    setStoredPin(pin);
+    setIsAuthenticated(true);
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <PinLock 
+        onSuccess={handlePinSuccess}
+        onSetPin={handleSetPin}
+        hasStoredPin={!!storedPin}
+      />
+    );
+  }
+
+  return <MessengerApp />;
 };
 
 export default Index;
