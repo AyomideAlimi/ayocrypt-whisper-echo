@@ -15,7 +15,13 @@ const config: CapacitorConfig = {
       backgroundColor: '#1f2937',
       showSpinner: true,
       spinnerColor: '#10b981'
+    },
+    BiometricAuth: {
+      allowDeviceCredentials: true
     }
+  },
+  android: {
+    useLegacyBiometric: true
   }
 };
 
